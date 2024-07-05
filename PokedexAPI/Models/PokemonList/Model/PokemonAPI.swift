@@ -35,16 +35,18 @@ class PokemonAPI {
             }
         }.resume()
     }
-    
-    func fetchPokemonSprite(for pokemon: PokemonResult, completion: @escaping (UIImage?) -> Void) {
-        guard let url = URL(string: pokemon.url) else {
+
+
+    func fetchPokemonImageURL(for pokemonName: String, completion: @escaping (UIImage?) -> Void) {
+
+        guard let url = URL(string: "\(baseURL)pokemon/\(pokemonName.lowercased())/") else {
             completion(nil)
             return
         }
         
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
-                print("Error fetching sprite for \(pokemon.name):", error)
+                print("Error fetching sprite for \(pokemonName):", error)
                 completion(nil)
                 return
             }
@@ -58,7 +60,7 @@ class PokemonAPI {
                 let decoder = JSONDecoder()
                 let pokemonData = try decoder.decode(Pokemon.self, from: data)
                 
-                guard let spriteURL = URL(string: pokemonData.sprites.frontDefault) else {
+                guard let spriteURL = URL(string: pokemonData.pokemonResources.imageURL) else {
                     completion(nil)
                     return
                 }
@@ -72,7 +74,7 @@ class PokemonAPI {
                 }.resume()
                 
             } catch let jsonError {
-                print("Error decoding JSON for \(pokemon.name):", jsonError)
+                print("Error decoding JSON for \(pokemonName):", jsonError)
                 completion(nil)
             }
         }.resume()
@@ -89,13 +91,26 @@ struct PokemonResult: Codable {
 }
 
 struct Pokemon: Codable {
-    let sprites: Sprites
-    
-    struct Sprites: Codable {
-        let frontDefault: String
-        
+    let pokemonResources: PokemonResources
+
+    enum CodingKeys: String, CodingKey {
+        case pokemonResources = "sprites"
+    }
+
+    struct PokemonResources: Codable {
+        let imageURL: String
+
         enum CodingKeys: String, CodingKey {
-            case frontDefault = "front_default"
+            case imageURL = "front_default"
         }
     }
 }
+
+
+//TODO: Convertir el PokemonAPI en un repostory
+//TODO: Convertir el fetchPokemonNames y el fetchPokemonImageURL a use cases independientes (UseCase, Datasource, Worker)
+//TODO: Tenemos un objeto para los names (PokemonResult) y otro para la url (Pokemon.PokemonResources) esto objectos de red,
+//vamos a crear un objeto de dominio que combine ambos, y el controller solo sepa de la existencia del objeto de dominio
+
+
+//TODO: OPTIONAL Crear Network service para pokemon API

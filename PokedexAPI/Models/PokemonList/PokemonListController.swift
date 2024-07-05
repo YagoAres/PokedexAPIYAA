@@ -1,7 +1,7 @@
 import UIKit
 
-class PokemonList: UIViewController {
-    
+class PokemonListController: UIViewController {
+
     let containerView = UIView() // Vista contenedora
     let tablePokedex = UITableView() // Tabla
     
@@ -57,12 +57,9 @@ class PokemonList: UIViewController {
             }
             
             for (index, pokemonName) in pokemonNames.enumerated() {
-                let pokemonIndex = index + 1
-                let pokemonResult = PokemonResult(name: pokemonName, url: "\(PokemonAPI.shared.baseURL)pokemon/\(pokemonIndex)/")
-                
-                PokemonAPI.shared.fetchPokemonSprite(for: pokemonResult) { sprite in
+                PokemonAPI.shared.fetchPokemonImageURL(for: pokemonName) { sprite in
                     self.pokemonSprites[index] = sprite
-                    
+
                     DispatchQueue.main.async {
                         self.tablePokedex.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
                     }
@@ -72,7 +69,7 @@ class PokemonList: UIViewController {
     }
 }
 
-extension PokemonList: UITableViewDataSource {
+extension PokemonListController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return pokemonNames.count
     }
@@ -83,7 +80,7 @@ extension PokemonList: UITableViewDataSource {
         cell.additionalImageView.image = UIImage(named: "PixelPokeball")
         cell.pokedexNumberLabel.text = "No. 00\(indexPath.row + 1)"
         cell.pokemonNameLabel.text = pokemonNames[indexPath.row]
-        
+
         if let sprite = pokemonSprites[indexPath.row] {
             cell.pokemonImageView.image = sprite
         } else {

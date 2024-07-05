@@ -12,8 +12,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         self.window = window
         // Create an instance of 1st screen
-        let pokemonList = PokemonList()
-        
+        let pokemonList = PokemonListController()
+
         let navigationController = UINavigationController(rootViewController: pokemonList)
         // Set the root view controller of the window
         window.rootViewController = navigationController

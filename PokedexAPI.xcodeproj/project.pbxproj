@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		3158D48B2C36A49400E2AB3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3158D48A2C36A49400E2AB3D /* AppDelegate.swift */; };
 		3158D48D2C36A49400E2AB3D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3158D48C2C36A49400E2AB3D /* SceneDelegate.swift */; };
-		3158D48F2C36A49400E2AB3D /* PokemonList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3158D48E2C36A49400E2AB3D /* PokemonList.swift */; };
+		3158D48F2C36A49400E2AB3D /* PokemonListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3158D48E2C36A49400E2AB3D /* PokemonListController.swift */; };
 		3158D4922C36A49400E2AB3D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 3158D4912C36A49400E2AB3D /* Base */; };
 		3158D4942C36A49700E2AB3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3158D4932C36A49700E2AB3D /* Assets.xcassets */; };
 		3158D4972C36A49700E2AB3D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 3158D4962C36A49700E2AB3D /* Base */; };
@@ -44,7 +44,7 @@
 		3158D4872C36A49400E2AB3D /* PokedexAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokedexAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3158D48A2C36A49400E2AB3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3158D48C2C36A49400E2AB3D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3158D48E2C36A49400E2AB3D /* PokemonList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonList.swift; sourceTree = "<group>"; };
+		3158D48E2C36A49400E2AB3D /* PokemonListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonListController.swift; sourceTree = "<group>"; };
 		3158D4912C36A49400E2AB3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3158D4932C36A49700E2AB3D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3158D4962C36A49700E2AB3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -169,7 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				3158D4CF2C36C83400E2AB3D /* Model */,
-				3158D48E2C36A49400E2AB3D /* PokemonList.swift */,
+				3158D48E2C36A49400E2AB3D /* PokemonListController.swift */,
 			);
 			path = PokemonList;
 			sourceTree = "<group>";
@@ -316,7 +316,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3158D48F2C36A49400E2AB3D /* PokemonList.swift in Sources */,
+				3158D48F2C36A49400E2AB3D /* PokemonListController.swift in Sources */,
 				3158D48B2C36A49400E2AB3D /* AppDelegate.swift in Sources */,
 				3158D4C02C36B16500E2AB3D /* CustomCell.swift in Sources */,
 				3158D4D12C36C84700E2AB3D /* PokemonAPI.swift in Sources */,
