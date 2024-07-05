@@ -27,7 +27,7 @@ class PokemonListController: UIViewController {
         
         tablePokedex.translatesAutoresizingMaskIntoConstraints = false
         tablePokedex.dataSource = self
-        tablePokedex.register(CustomCell.self, forCellReuseIdentifier: "CustomCell")
+        tablePokedex.register(CustomCell.self, forCellReuseIdentifier: CustomCell.cellIdentifier)
         containerView.addSubview(tablePokedex)
     }
     
@@ -75,7 +75,7 @@ extension PokemonListController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! CustomCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: CustomCell.cellIdentifier, for: indexPath) as! CustomCell
         
         cell.additionalImageView.image = UIImage(named: "PixelPokeball")
         cell.pokedexNumberLabel.text = "No. 00\(indexPath.row + 1)"

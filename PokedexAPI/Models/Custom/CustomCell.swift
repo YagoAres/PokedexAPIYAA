@@ -1,7 +1,9 @@
 import UIKit
 
 class CustomCell: UITableViewCell {
-    
+
+    static let cellIdentifier: String = "CustomCell"
+
     let additionalImageView = UIImageView() // Nuevo imageView añadido
     let pokemonImageView = UIImageView()
     let pokedexNumberLabel = UILabel()
