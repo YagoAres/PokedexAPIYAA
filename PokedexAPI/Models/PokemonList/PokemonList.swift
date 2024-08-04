@@ -4,16 +4,14 @@ class PokemonList: UIViewController {
     
     let containerView = UIView() // Vista contenedora
     let tablePokedex = UITableView() // Tabla
-    
-    var pokemonNames: [String] = []
-    var pokemonSprites: [UIImage?] = []
+    var pokemonEntries: [PokemonEntry] = []
+    var pokemonSprites: [String: UIImage] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .orange
         setupComponents()
         setupConstraints()
-        
         fetchPokemonData()
     }
     
@@ -46,26 +44,21 @@ class PokemonList: UIViewController {
     }
     
     func fetchPokemonData() {
-        PokemonAPI.shared.fetchPokemonNames { pokemonNames in
-            guard let pokemonNames = pokemonNames else { return }
+        PokemonApi().getData { [weak self] pokemonEntries in
+            self?.pokemonEntries = pokemonEntries
+            self?.tablePokedex.reloadData()
             
-            self.pokemonNames = pokemonNames
-            self.pokemonSprites = Array(repeating: nil, count: pokemonNames.count)
             
-            DispatchQueue.main.async {
-                self.tablePokedex.reloadData()
-            }
-            
-            for (index, pokemonName) in pokemonNames.enumerated() {
-                let pokemonIndex = index + 1
-                let pokemonResult = PokemonResult(name: pokemonName, url: "\(PokemonAPI.shared.baseURL)pokemon/\(pokemonIndex)/")
-                
-                PokemonAPI.shared.fetchPokemonSprite(for: pokemonResult) { sprite in
-                    self.pokemonSprites[index] = sprite
-                    
-                    DispatchQueue.main.async {
-                        self.tablePokedex.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
-                    }
+        }
+    }
+}
+
+extension UIImageView {
+    func load(url: URL) {
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    self?.image = image
                 }
             }
         }
@@ -74,23 +67,27 @@ class PokemonList: UIViewController {
 
 extension PokemonList: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return pokemonNames.count
+        return pokemonEntries.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! CustomCell
         
+        let pokemon = pokemonEntries[indexPath.row]
         cell.additionalImageView.image = UIImage(named: "PixelPokeball")
         cell.pokedexNumberLabel.text = "No. 00\(indexPath.row + 1)"
-        cell.pokemonNameLabel.text = pokemonNames[indexPath.row]
-        
-        if let sprite = pokemonSprites[indexPath.row] {
-            cell.pokemonImageView.image = sprite
-        } else {
-            cell.pokemonImageView.image = UIImage(named: "placeholder_image") // Opcional: imagen de relleno mientras se carga
-        }
+        cell.pokemonNameLabel.text = pokemon.name.capitalized
+
+        PokemonSelectedApi().getData(url: pokemon.url) { sprites, weight in
+                  if let url = URL(string: sprites.front_default) {
+                      cell.pokemonImageView.load(url: url)
+                      print(weight)
+                  }
+         
+              }
         
         return cell
     }
 }
+
 
